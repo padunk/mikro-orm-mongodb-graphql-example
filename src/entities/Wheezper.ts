@@ -8,11 +8,15 @@ import { ObjectType, Field } from "type-graphql";
 export class Wheezper extends BaseEntity {
   @Field()
   @Property()
-  text: string;
+  text!: string;
 
   @Field(() => [String])
   @Property()
   tag?: string[];
+
+  @Field(() => [String])
+  @Property()
+  timeToLive!: number;
 
   @Field(() => [Wheezper])
   @OneToMany(
@@ -23,7 +27,7 @@ export class Wheezper extends BaseEntity {
 
   @Field(() => User)
   @ManyToOne()
-  owner: User;
+  owner!: User;
 
   @Field(() => Boolean)
   @Property()
