@@ -1,15 +1,14 @@
-import { Entity, OneToOne, OneToMany, Collection } from "mikro-orm";
+import { Entity, Collection, PrimaryKey } from "mikro-orm";
 import { User } from "./User";
-import { BaseEntity } from "./BaseEntity";
+import { ObjectID } from "mongodb";
+import { Field, ObjectType } from "type-graphql";
 
+@ObjectType()
 @Entity()
-export class UserFriends extends BaseEntity {
-  @OneToOne({ mappedBy: "friendsList" })
-  user_id!: User;
+export class UserFriends {
+  @PrimaryKey()
+  _id!: ObjectID;
 
-  @OneToMany(
-    () => User,
-    (u) => u._id
-  )
-  friends_list = new Collection<User>(this);
+  @Field(() => [User])
+  friends? = new Collection<User>(this);
 }
