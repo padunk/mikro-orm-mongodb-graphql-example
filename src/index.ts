@@ -10,7 +10,7 @@ import {
   EntityRepository,
   RequestContext,
 } from "mikro-orm";
-import { User, Wheezper, BaseEntity } from "./entities";
+import { User, UserFriends, Wheezper, BaseEntity } from "./entities";
 import { UserResolver } from "./resolver/UserResolver";
 // import { Response, Request } from "express";
 
@@ -20,6 +20,7 @@ export const DI = {} as {
   orm: MikroORM;
   em: EntityManager;
   userRepo: EntityRepository<User>;
+  userFriendsRepo: EntityRepository<UserFriends>;
   wheezRepo: EntityRepository<Wheezper>;
 };
 
@@ -38,7 +39,7 @@ export const DI = {} as {
   });
 
   DI.orm = await MikroORM.init({
-    entities: [User, Wheezper, BaseEntity],
+    entities: [User, UserFriends, Wheezper, BaseEntity],
     entitiesDirsTs: ["src/entities"],
     dbName: `mikro-orm-graphql`,
     type: "mongo",
@@ -49,6 +50,7 @@ export const DI = {} as {
 
   DI.em = DI.orm.em;
   DI.userRepo = DI.orm.em.getRepository(User);
+  DI.userFriendsRepo = DI.orm.em.getRepository(UserFriends);
   DI.wheezRepo = DI.orm.em.getRepository(Wheezper);
   app.use((_, __, next) => RequestContext.create(DI.orm.em, next));
 
