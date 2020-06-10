@@ -1,7 +1,6 @@
 import { Entity, Property, OneToMany, Cascade, Collection } from "mikro-orm";
 import { ObjectType, Field } from "type-graphql";
 import { Wheezper, BaseEntity } from ".";
-// import { ObjectID } from "mongodb";
 
 @ObjectType()
 @Entity()
@@ -41,14 +40,6 @@ export class User extends BaseEntity {
     { cascade: [Cascade.ALL], default: [] }
   )
   wheezpers = new Collection<Wheezper>(this);
-
-  // @Field(() => [User])
-  // @OneToMany(
-  //   () => User,
-  //   (user) => user._id,
-  //   { cascade: [Cascade.ALL], default: [] }
-  // )
-  // friends_list = new Collection<ObjectID>(this);
 
   @Field()
   @Property()
