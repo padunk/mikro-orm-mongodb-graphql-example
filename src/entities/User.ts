@@ -60,7 +60,7 @@ export class EditUserInput implements Partial<User> {
 
   @Field({ nullable: true })
   @Property()
-  username?: string;
+  user_name?: string;
 
   @Field({ nullable: true })
   @Property()
@@ -81,22 +81,4 @@ export class EditUserInput implements Partial<User> {
   @Field({ nullable: true })
   @Property()
   website?: string;
-
-  constructor(
-    name: string,
-    username: string,
-    email: string,
-    password: string,
-    bio: string,
-    avatar: string,
-    website: string
-  ) {
-    this.name = name;
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.bio = bio;
-    this.avatar = avatar;
-    this.website = website;
-  }
 }
