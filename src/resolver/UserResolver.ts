@@ -55,8 +55,8 @@ export class UserResolver {
           message: "User not found",
         };
       }
-      wrap(user).assign(newUserData);
-      await DI.userRepo.persist(user);
+      wrap(user).assign({ ...user, ...newUserData });
+      await DI.userRepo.persistAndFlush(user);
       return user;
     } catch (error) {
       return {
@@ -65,5 +65,19 @@ export class UserResolver {
         message: "User not found",
       };
     }
+  }
+
+  @Mutation(() => Boolean)
+  async deleteUserData(
+    @Arg("id")
+    id: string
+  ) {
+    const user = DI.userRepo.findOne(id);
+
+    if (!user) {
+      return false;
+    }
+    DI.userRepo.remove(id);
+    return true;
   }
 }
