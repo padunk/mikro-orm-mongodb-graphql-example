@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
-import { User } from "../entities";
+import { User, EditUserInput } from "../entities";
 import { DI } from "../index";
+import { wrap } from "mikro-orm";
 
 @Resolver()
 export class UserResolver {
@@ -35,6 +36,34 @@ export class UserResolver {
       return user;
     } catch (error) {
       throw new Error(error);
+    }
+  }
+
+  @Mutation(() => User)
+  async editUserData(
+    @Arg("id")
+    id: string,
+    @Arg("data")
+    newUserData: EditUserInput
+  ) {
+    try {
+      const user = await DI.userRepo.findOne(id);
+
+      if (!user) {
+        return {
+          status: 404,
+          message: "User not found",
+        };
+      }
+      wrap(user).assign(newUserData);
+      await DI.userRepo.persist(user);
+      return user;
+    } catch (error) {
+      return {
+        error,
+        status: 404,
+        message: "User not found",
+      };
     }
   }
 }
