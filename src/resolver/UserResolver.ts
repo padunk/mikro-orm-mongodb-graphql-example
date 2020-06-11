@@ -9,6 +9,21 @@ export class UserResolver {
     return await DI.userRepo.findAll();
   }
 
+  @Query(() => User)
+  async userById(@Arg("id") id: string) {
+    return await DI.userRepo.findOne({ id });
+  }
+
+  @Query(() => User)
+  async userByName(@Arg("name") name: string) {
+    return await DI.userRepo.findOne({ name });
+  }
+
+  @Query(() => User)
+  async userByUserName(@Arg("username") username: string) {
+    return await DI.userRepo.findOne({ user_name: username });
+  }
+
   @Mutation(() => User)
   async addUser(
     @Arg("email") email: string,
