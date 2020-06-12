@@ -12,6 +12,7 @@ import {
 } from "mikro-orm";
 import { User, UserFriends, Wheezper, BaseEntity } from "./entities";
 import { UserResolver } from "./resolver/UserResolver";
+import { WheezperResolver } from "./resolver/WheezperResolver";
 // import { Response, Request } from "express";
 
 const PORT = process.env.PORT || 5000;
@@ -58,7 +59,7 @@ export const DI = {} as {
     "/graphql",
     graphqlHTTP({
       schema: await buildSchema({
-        resolvers: [UserResolver],
+        resolvers: [UserResolver, WheezperResolver],
       }),
       graphiql: true,
       pretty: true,
